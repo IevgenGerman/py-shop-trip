@@ -21,12 +21,12 @@ def read_value_from_file(name: str, mode: str) -> dict:
     return dataset
 
 
-dataset = read_value_from_file("config.json", "rb")
+dataset = read_value_from_file("config.json", "r")
 
 
 def check_if_full_data(func: Callable) -> Callable:
     @wraps(func)
-    def wrapper(*args: Any, **kwargs: Any) -> Callable:
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
         if check_values(dataset, "FUEL_PRICE", "customers", "shops"):
             result = func(*args, **kwargs)
         return result

@@ -29,24 +29,24 @@ def shop_trip() -> None:
                   f"{shop.name} costs {(result + round(trip_cost, 2)):.2f}")
             dict_for_calculate_shop[shop.name] = round(trip_cost, 2) + result
         min_value = min(calculate_min_result)
-        name_chip_shop = \
+        cheapest_shop = \
             [key for key, value in dict_for_calculate_shop.items()
              if value == min_value][0]
-        chippest_shop = [shop for shop in shops
-                         if shop.name == name_chip_shop][0]
+        cheapest_shop_name = [shop for shop in shops
+                              if shop.name == cheapest_shop][0]
         if customer.money < min_value:
             print(f"{customer.name} doesn't have "
                   f"enough money to make a purchase in any shop")
         else:
-            print(f"{customer.name} rides to {name_chip_shop}\n")
-            customer.location = chippest_shop.location
+            print(f"{customer.name} rides to {cheapest_shop}\n")
+            customer.location = cheapest_shop_name.location
             now = datetime.datetime.now()
             print(f"Date: {now.strftime('%d/%m/%Y %H:%M:%S')}")
             print(f"Thanks, {customer.name}, for your purchase!")
             print("You have bought:")
-            milk_cost = round(customer.milk * chippest_shop.milk, 2)
-            bread_cost = round(customer.bread * chippest_shop.bread, 2)
-            butter_cost = round(customer.butter * chippest_shop.butter, 2)
+            milk_cost = round(customer.milk * cheapest_shop_name.milk, 2)
+            bread_cost = round(customer.bread * cheapest_shop_name.bread, 2)
+            butter_cost = round(customer.butter * cheapest_shop_name.butter, 2)
             print(f"{customer.milk} milks for {milk_cost:g} dollars")
             print(f"{customer.bread} breads for {bread_cost:g} dollars")
             print(f"{customer.butter} butters for {butter_cost:g} dollars")

@@ -6,7 +6,7 @@ from app.check_if_exist import check_values
 
 @dataclass
 class Customers(ProductCard, CustomerCar):
-    name: str | float
+    name: str
     location: list
     money: int | float
 

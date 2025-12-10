@@ -5,7 +5,7 @@ from app.check_if_exist import check_values
 
 @dataclass
 class Shops(ProductCard):
-    name: str | float
+    name: str
     location: list
 
     @classmethod
