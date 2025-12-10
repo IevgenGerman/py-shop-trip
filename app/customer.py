@@ -1,46 +1,29 @@
 import json
 
+from typing import Any
 from app.car import CustomerCar
-from app.product_card import ProductCard
+from app.product_cart import ProductCard
+from dataclasses import dataclass
+from app.check_if_exist import check_values
 
 
+@dataclass
 class Customers(ProductCard, CustomerCar):
-    def __init__(self,
-                 name: str | float,
-                 location: list,
-                 money: int | float,
-                 milk: int | float,
-                 bread: int | float,
-                 butter: int | float,
-                 brand: str,
-                 fuel_consumption: float) -> None:
-        ProductCard.__init__(self, milk, bread, butter)
-        CustomerCar.__init__(self, brand, fuel_consumption)
-        self.name = name
-        self.location = location
-        self.money = money
+    name: str | float
+    location: list
+    money: int | float
 
-    def __repr__(self) -> str:
-        return f"Customer name = {self.name}"
-
-def create_customers() -> list:
-    customer_list = []
-    with open("config.json", "rb") as file:
-        dataset = json.load(file)
-        customers = dataset["customers"]
-        fuel_price = dataset["FUEL_PRICE"]
-        shops = dataset["shops"]
-        for i, user in enumerate(customers):
-            customer_list.append(
-                Customers(user["name"],
-                          user["location"],
-                          user["money"],
-                          user["product_cart"]["milk"],
-                          user["product_cart"]["bread"],
-                          user["product_cart"]["butter"],
-                          user["car"]["brand"],
-                          user["car"]["fuel_consumption"],
-                          )
-            )
-    return customer_list
-
+    @classmethod
+    def create_list_of_customers(cls, dataset: dict) -> "Customers":
+        first_condition = check_values(dataset, "name", "product_cart", "location", "money", "car")
+        second_condition = check_values(dataset["product_cart"], "milk", "bread", "butter")
+        third_condition = check_values(dataset["car"], "brand", "fuel_consumption")
+        if first_condition and second_condition and third_condition:
+            return cls(brand=dataset["car"]["brand"],
+                       fuel_consumption=dataset["car"]["fuel_consumption"],
+                       milk=dataset["product_cart"]["milk"],
+                       bread=dataset["product_cart"]["bread"],
+                       butter=dataset["product_cart"]["butter"],
+                       name=dataset["name"],
+                       location=dataset["location"],
+                       money=dataset["money"])
