@@ -19,20 +19,23 @@ def shop_trip():
             dict_for_calculate_shop[shop.name] = result
         min_value = min(calculate_min_result)
         name_chip_shop = [key for key, value in dict_for_calculate_shop.items() if value == min_value][0]
+        chippest_shop = [shop for shop in shops if shop.name == name_chip_shop][0]
         if customer.money < min_value:
             print(f"{customer.name} doesn't have enough money to make a purchase in any shop")
         else:
             print(f"{customer.name}'s rides to {name_chip_shop}\n")
+
             now = datetime.datetime.now()
             print(f"Data: {now.strftime('%d/%m/%Y %H:%M:%S')}")
             print(f"Thanks, {customer.name}, for your purchase!")
             print("You have bought:")
-            print(f"{customer.milk} milks for {customer.milk}")
-            print(f"{customer.bread} breads for {customer.milk}")
-            print(f"{customer.butter} butters for {customer.milk}")
+            print(f"{customer.milk} milks for {(customer.milk * chippest_shop.milk):.1f}")
+            print(f"{customer.bread} breads for {customer.bread * chippest_shop.bread}")
+            print(f"{customer.butter} butters for {customer.butter * chippest_shop.butter}")
+            print(f"Total cost is {min_value:.1f} dollars")
             print("See you again!\n")
             print(f"{customer.name} rides home")
-            print(f"{customer.name} now has {customer.money - min_value} dollars\n")
+            print(f"{customer.name} now has {(customer.money - min_value):.1f} dollars\n")
 
     # print(a)
     # print(b)
